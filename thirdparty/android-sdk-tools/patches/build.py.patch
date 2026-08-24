@@ -1,0 +1,14 @@
+diff --git a/build.py b/build.py
+index 1b54da5..570c44a 100755
+--- a/build.py
++++ b/build.py
+@@ -113,6 +113,9 @@ def build(args):
+         '-DCMAKE_SYSTEM_NAME=Android',
+         '-Dprotobuf_BUILD_TESTS=OFF',
+         '-DABSL_PROPAGATE_CXX_STD=ON',
++        '-DBUILD_SHARED_LIBS=OFF',
++        '-DCMAKE_EXE_LINKER_FLAGS=-static',
++        '-DZLIB_USE_STATIC_LIBS=ON',
+         '-DANDROID_ARM_NEON=ON',
+         '-DCMAKE_BUILD_TYPE=Release']
+     

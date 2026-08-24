@@ -1,6 +1,7 @@
 ARG JDK_VERSION
+ARG TARGET_SDK
 
-FROM alvrme/alpine-android-base:jdk${JDK_VERSION}
+FROM alvrme/alpine-android:android-${TARGET_SDK}-jdk${JDK_VERSION}
 
 ARG BUILD_TOOLS
 ARG TARGET_SDK

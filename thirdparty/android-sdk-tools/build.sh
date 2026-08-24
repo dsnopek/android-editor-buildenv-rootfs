@@ -34,6 +34,8 @@ patch -p1 < patches/protobuf_CMakeLists.txt.patch \
 	|| die "Unable to apply art patch"
 (cd src/core && git checkout -- . && patch -p1 < $SCRIPT_DIR/patches/core.patch) \
 	|| die "Unable to apply core patch"
+(git checkout -- build.py && patch -p1 < $SCRIPT_DIR/patches/build.py.patch) \
+	|| die "Unable to apply build.py patch"
 
 # Build protobuf for the host.
 PROTOBUF_BUILD_DIR="src/protobuf/build"
@@ -58,6 +60,7 @@ done
 
 # Copy the build tools into place.
 rm -rf "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR"
 cp -r "$BUILD_DIR/arm64-v8a/bin/build-tools" "$OUTPUT_DIR" \
 	|| die "Unable to copy built build-tools into place"
 
