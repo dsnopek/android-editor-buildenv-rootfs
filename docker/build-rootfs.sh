@@ -17,13 +17,16 @@ function die() {
 # Build the alpine-android images.
 
 docker build "$ALPINE_ANDROID_DIR/docker" --platform=$PLATFORM -f "$ALPINE_ANDROID_DIR/docker/base.Dockerfile" -t alvrme/alpine-android-base:jdk17 \
-	--build-arg="JDK_VERSION=17" --build-arg="CMDLINE_VERSION=latest" --build-arg="SDK_TOOLS_VERSION=13114758"
+	--build-arg="JDK_VERSION=17" --build-arg="CMDLINE_VERSION=latest" --build-arg="SDK_TOOLS_VERSION=13114758" \
+    || die "Failed to build Docker base image"
 
 docker build "$ALPINE_ANDROID_DIR/docker" --platform=$PLATFORM -f "$ALPINE_ANDROID_DIR/docker/android.Dockerfile" -t alvrme/alpine-android:android-35-jdk17 \
-	--build-arg="JDK_VERSION=17" --build-arg="BUILD_TOOLS=35.0.0" --build-arg="TARGET_SDK=35"
+	--build-arg="JDK_VERSION=17" --build-arg="BUILD_TOOLS=35.0.0" --build-arg="TARGET_SDK=35" \
+    || die "Failed to build Docker Android image"
 
 docker build "$SCRIPT_DIR" --platform=$PLATFORM -f "$SCRIPT_DIR/Dockerfile.godot" -t $IMAGE_NAME \
-	--build-arg="JDK_VERSION=17" --build-arg="BUILD_TOOLS=35.0.0" --build-arg="TARGET_SDK=35"
+	--build-arg="JDK_VERSION=17" --build-arg="BUILD_TOOLS=35.0.0" --build-arg="TARGET_SDK=35" \
+    || die "Failed to build Docker Godot image"
 
 # Run the custom built tools to confirm they work.
 docker run --rm -i --platform=$PLATFORM $IMAGE_NAME sh <<'EOF' \
